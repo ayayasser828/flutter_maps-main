@@ -20,7 +20,7 @@ class OtpScreen extends StatelessWidget {
         Text(
           'Verify your phone number',
           style: TextStyle(
-              color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+              color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
         ),
         SizedBox(
           height: 30,
@@ -30,7 +30,7 @@ class OtpScreen extends StatelessWidget {
           child: RichText(
             text: TextSpan(
               text: 'Enter your 6 digit code numbers sent to ',
-              style: TextStyle(color: Colors.black, fontSize: 18, height: 1.4),
+              style: TextStyle(color: Colors.white, fontSize: 17, height: 1.4),
               children: <TextSpan>[
                 TextSpan(
                   text: '$phoneNumber',
@@ -83,13 +83,13 @@ class OtpScreen extends StatelessWidget {
           borderWidth: 1,
           activeColor: MyColors.blue,
           inactiveColor: MyColors.blue,
-          inactiveFillColor: Colors.white,
+          inactiveFillColor: Colors.transparent,
           activeFillColor: MyColors.lightBlue,
           selectedColor: MyColors.blue,
           selectedFillColor: Colors.white,
         ),
         animationDuration: Duration(milliseconds: 300),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         enableActiveFill: true,
         onCompleted: (submitedCode) {
           otpCode = submitedCode;
@@ -107,23 +107,22 @@ class OtpScreen extends StatelessWidget {
   }
 
   Widget _buildVrifyButton(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
     return Align(
-      alignment: Alignment.centerRight,
+      alignment: Alignment.center,
       child: ElevatedButton(
         onPressed: () {
           showProgressIndicator(context);
 
           _login(context);
         },
-        child: Text(
-          'Verify',
-          style: TextStyle(color: Colors.white, fontSize: 16),
-        ),
+        child: Icon(Icons.arrow_forward,color: Colors.white,),
         style: ElevatedButton.styleFrom(
-          minimumSize: Size(110, 50),
-          primary: Colors.black,
+          minimumSize: Size(width*0.13, height*0.07),
+          primary: Colors.lightBlue,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.circular(50),
           ),
         ),
       ),
@@ -163,25 +162,41 @@ class OtpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Container(
-          margin: EdgeInsets.symmetric(horizontal: 32, vertical: 88),
-          child: Column(
-            children: [
-              _buildIntroTexts(),
-              SizedBox(
-                height: 88,
-              ),
-              _buildPinCodeFields(context),
-              SizedBox(
-                height: 60,
-              ),
-              _buildVrifyButton(context),
-              _buildPhoneVerificationBloc(),
-            ],
-          ),
+        body: ListView(
+          children: [
+            Stack(
+              children: [
+                Container(
+                  width: width,
+                  height: height,
+                  decoration: BoxDecoration(
+                      gradient: linearGradient
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 32, vertical: 88),
+                  child: Column(
+                    children: [
+                      _buildIntroTexts(),
+                      SizedBox(
+                        height: 88,
+                      ),
+                      _buildPinCodeFields(context),
+                      SizedBox(
+                        height: 60,
+                      ),
+                      _buildVrifyButton(context),
+                      _buildPhoneVerificationBloc(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

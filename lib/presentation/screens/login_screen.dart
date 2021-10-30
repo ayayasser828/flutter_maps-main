@@ -18,9 +18,9 @@ class LoginScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'What is your phone number?',
+          'Welcome!!',
           style: TextStyle(
-              color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+              color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
         ),
         SizedBox(
           height: 30,
@@ -30,7 +30,7 @@ class LoginScreen extends StatelessWidget {
           child: Text(
             'Please enter yout phone number to verify your account.',
             style: TextStyle(
-              color: Colors.black,
+              color: Colors.white,
               fontSize: 18,
             ),
           ),
@@ -51,7 +51,7 @@ class LoginScreen extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(6)),
             ),
             child: Text(
-              generateCountryFlag() + ' +20',
+              generateCountryFlag() + ' +2',
               style: TextStyle(fontSize: 18, letterSpacing: 2.0),
             ),
           ),
@@ -116,23 +116,22 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _buildNextButton(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
     return Align(
-      alignment: Alignment.centerRight,
+      alignment: Alignment.center,
       child: ElevatedButton(
         onPressed: () {
           showProgressIndicator(context);
 
           _register(context);
         },
-        child: Text(
-          'Next',
-          style: TextStyle(color: Colors.white, fontSize: 16),
-        ),
+        child: Icon(Icons.arrow_forward,color: Colors.white,),
         style: ElevatedButton.styleFrom(
-          minimumSize: Size(110, 50),
-          primary: Colors.black,
+          minimumSize: Size(width*0.13, height*0.07),
+          primary: Colors.lightBlue,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.circular(50),
           ),
         ),
       ),
@@ -193,29 +192,46 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Form(
-          key: _phoneFormKey,
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 32, vertical: 88),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        backgroundColor: Colors.lightBlue,
+        body: ListView(
+          children: [
+            Stack(
               children: [
-                _buildIntroTexts(),
-                SizedBox(
-                  height: 110,
+                Container(
+                  width: width,
+                  height: height,
+                  decoration: BoxDecoration(
+                      gradient: linearGradient
+                  ),
                 ),
-                _buildPhoneFormField(),
-                SizedBox(
-                  height: 70,
+                Form(
+                  key: _phoneFormKey,
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 32, vertical: 88),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildIntroTexts(),
+                        SizedBox(
+                          height: 110,
+                        ),
+                        _buildPhoneFormField(),
+                        SizedBox(
+                          height: 70,
+                        ),
+                        _buildNextButton(context),
+                        _buildPhoneNumberSubmitedBloc(),
+                      ],
+                    ),
+                  ),
                 ),
-                _buildNextButton(context),
-                _buildPhoneNumberSubmitedBloc(),
               ],
             ),
-          ),
+          ],
         ),
       ),
     );

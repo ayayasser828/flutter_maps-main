@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_maps/business_logic/cubit/phone_auth/phone_auth_cubit.dart';
 import 'package:flutter_maps/constnats/strings.dart';
 import 'package:flutter_maps/helpers/location_helper.dart';
 import 'package:flutter_maps/presentation/widgets/custom_button.dart';
@@ -12,6 +13,7 @@ class MapScreen extends StatefulWidget {
   static String currentAddress = '';
   const MapScreen({Key? key}) : super(key: key);
 
+
   @override
   State<MapScreen> createState() => _MapScreenState();
 }
@@ -21,6 +23,7 @@ class _MapScreenState extends State<MapScreen> {
   String? street;
   String? locality;
   String? administrativeArea;
+  PhoneAuthCubit phoneAuthCubit = PhoneAuthCubit();
 
   static Position? position;
   Completer<GoogleMapController> _mapController = Completer();
@@ -178,6 +181,21 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ),
           ),
+          Positioned(
+              top: 50,
+              right: 30,
+              child: InkWell(
+                child: Container(
+                    width: width*0.09,
+                    height: height*0.09,
+                    child: Icon(Icons.logout,color: Colors.red,size: 30,)
+                ),
+                onTap: () async {
+                  await phoneAuthCubit.logOut();
+                  Navigator.of(context).pushReplacementNamed(loginScreen);
+                },
+              )
+          )
         ],
       ),
       floatingActionButton: buildFAB(),
